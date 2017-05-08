@@ -22,6 +22,7 @@ import com.planet57.gshell.command.CommandContext;
 import com.planet57.gshell.util.cli2.OpaqueArguments;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 // FIXME: this is a basic test of integration with BooCli; certainly not optimal for shell integration
 
@@ -36,13 +37,13 @@ public class BooAction
   @Override
   public Object execute(final @Nonnull CommandContext context) throws Exception {
     BooCli boo = new BooCli();
-    return boo.parse(strings(context.getArguments().toArray()));
+    return boo.parse(strings(context.getArguments()));
   }
 
-  private String[] strings(final Object[] input) {
-    String[] result = new String[input.length];
-    for (int i=0; i<input.length; i++) {
-      result[i] = String.valueOf(input[i]);
+  private static String[] strings(final List<?> input) {
+    String[] result = new String[input.size()];
+    for (int i=0; i<result.length; i++) {
+      result[i] = String.valueOf(input.get(i));
     }
     return result;
   }

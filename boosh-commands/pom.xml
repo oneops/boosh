@@ -50,6 +50,7 @@
 
         <!--
         TODO: this is being pulled in out of scope=test have to investigate why.
+        TODO: Comes from org.jayway.restassured:rest-assured
         -->
         <exclusion>
           <groupId>org.hamcrest</groupId>

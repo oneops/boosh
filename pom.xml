@@ -26,7 +26,7 @@
     <version>3</version>
   </parent>
 
-  <groupId>com.walmart.devtools.boosh</groupId>
+  <groupId>com.oneops.boo.shell</groupId>
   <artifactId>boosh</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <name>${project.groupId}:${project.artifactId}</name>
@@ -42,6 +42,7 @@
 
   <properties>
     <gshell.version>3.0.0-SNAPSHOT</gshell.version>
+    <boo.version>1.0.8-SNAPSHOT</boo.version>
 
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -99,31 +100,31 @@
       <dependency>
         <groupId>com.oneops.boo</groupId>
         <artifactId>boo</artifactId>
-        <version>1.0.7</version>
+        <version>${boo.version}</version>
       </dependency>
 
       <!-- INTERNAL -->
 
       <dependency>
-        <groupId>com.walmart.devtools.boosh</groupId>
+        <groupId>com.oneops.boo.shell</groupId>
         <artifactId>boosh-bootstrap</artifactId>
         <version>1.0.0-SNAPSHOT</version>
       </dependency>
 
       <dependency>
-        <groupId>com.walmart.devtools.boosh</groupId>
+        <groupId>com.oneops.boo.shell</groupId>
         <artifactId>boosh-commands</artifactId>
         <version>1.0.0-SNAPSHOT</version>
       </dependency>
 
       <dependency>
-        <groupId>com.walmart.devtools.boosh</groupId>
+        <groupId>com.oneops.boo.shell</groupId>
         <artifactId>boosh-personality</artifactId>
         <version>1.0.0-SNAPSHOT</version>
       </dependency>
 
       <dependency>
-        <groupId>com.walmart.devtools.boosh</groupId>
+        <groupId>com.oneops.boo.shell</groupId>
         <artifactId>boosh-assembly</artifactId>
         <version>1.0.0-SNAPSHOT</version>
       </dependency>

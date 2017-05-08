@@ -70,7 +70,7 @@
       <outputFileNameMapping>bootstrap.jar</outputFileNameMapping>
       <useProjectArtifact>false</useProjectArtifact>
       <includes>
-        <include>com.walmart.devtools.boosh:boosh-bootstrap</include>
+        <include>com.oneops.boo.shell:boosh-bootstrap</include>
       </includes>
     </dependencySet>
 
@@ -79,7 +79,7 @@
       <useTransitiveDependencies>true</useTransitiveDependencies>
       <useProjectArtifact>false</useProjectArtifact>
       <excludes>
-        <exclude>com.walmart.devtools.boosh:boosh-bootstrap</exclude>
+        <exclude>com.oneops.boo.shell:boosh-bootstrap</exclude>
       </excludes>
     </dependencySet>
   </dependencySets>

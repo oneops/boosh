@@ -21,7 +21,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.walmart.devtools.boosh</groupId>
+    <groupId>com.oneops.boo.shell</groupId>
     <artifactId>boosh</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
@@ -39,6 +39,35 @@
     <dependency>
       <groupId>com.oneops.boo</groupId>
       <artifactId>boo</artifactId>
+      <exclusions>
+        <!--
+        TODO: boo uses guice 4.1; gshell still on 4.0
+        -->
+        <exclusion>
+          <groupId>com.google.inject</groupId>
+          <artifactId>guice</artifactId>
+        </exclusion>
+
+        <!--
+        TODO: this is being pulled in out of scope=test have to investigate why.
+        -->
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-library</artifactId>
+        </exclusion>
+
+        <!--
+        TODO: boo includes slf4j-simple; boosh uses logback
+        -->
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-simple</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>

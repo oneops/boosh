@@ -21,7 +21,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.walmart.devtools.boosh</groupId>
+    <groupId>com.oneops.boo.shell</groupId>
     <artifactId>boosh</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>

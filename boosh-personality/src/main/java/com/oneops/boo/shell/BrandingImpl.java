@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.walmart.devtools.boosh;
+package com.oneops.boo.shell;
 
 import static com.planet57.gshell.variables.VariableNames.SHELL_GROUP;
 import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;

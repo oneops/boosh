@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.walmart.devtools.boosh;
+package com.oneops.boo.shell;
 
 import com.google.inject.Module;
 import com.planet57.gossip.Level;

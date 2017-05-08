@@ -23,9 +23,24 @@ See [Boo](https://github.com/oneops/boo).
 
 Based on [GShell 3](https://github.com/jdillon/gshell).
 
+# License
+
+[Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+
 # Building
 
 ## Requirements
 
 * [Maven](http://maven.apache.org) 3.5+ (prefer included maven-wrapper)
 * [Java](http://java.oracle.com/) 8+
+
+Check out and build:
+
+    git clone git://github.com/jdillon/boosh.git
+    cd boosh
+    ./build rebuild
+
+After this completes, you can unzip the assembly and launch the shell:
+
+    ./build run
+

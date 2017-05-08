@@ -49,20 +49,7 @@
         </exclusion>
 
         <!--
-        TODO: this is being pulled in out of scope=test have to investigate why.
-        TODO: Comes from org.jayway.restassured:rest-assured
-        -->
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-library</artifactId>
-        </exclusion>
-
-        <!--
-        TODO: boo includes slf4j-simple; boosh uses logback
+        Boo includes slf4j-simple; use logback for boosh
         -->
         <exclusion>
           <groupId>org.slf4j</groupId>

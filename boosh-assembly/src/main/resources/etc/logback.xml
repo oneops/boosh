@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="${shell.logging.debug:-false}" scan="${shell.logging.scan:-false}" scanPeriod="${shell.logging.scan-period:-30 seconds}">
+
+  <contextName>default</contextName>
+
+  <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+    <resetJUL>true</resetJUL>
+  </contextListener>
+
+  <appender name="console" class="com.planet57.gshell.logging.logback.TargetConsoleAppender">
+    <encoder>
+      <pattern>${shell.logging.console.pattern:-[%level] %logger{1} - %msg%n}</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>${shell.logging.console.threshold:-INFO}</level>
+    </filter>
+  </appender>
+
+  <appender name="file" class="ch.qos.logback.core.FileAppender">
+    <file>${shell.logging.file.path:-${shell.home}/log/shell.log}</file>
+    <append>${shell.logging.file.append:-false}</append>
+    <encoder>
+      <pattern>${shell.logging.file.pattern:-%date %level [%thread%X{DC}] %logger - %msg%n}</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>${shell.logging.file.threshold:-INFO}</level>
+    </filter>
+  </appender>
+
+  <logger name="Sisu" level="${shell.logging.logger.Sisu.level:-INFO}"/>
+  <logger name="org.jline" level="${shell.logging.logger.org.jline.level:-INFO}"/>
+
+  <root level="${shell.logging.root-level:-INFO}">
+    <appender-ref ref="console"/>
+    <appender-ref ref="file"/>
+  </root>
+
+</configuration>

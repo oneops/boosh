@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2017-present Walmart, Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.walmart.devtools.buildsupport</groupId>
+    <artifactId>public-parent</artifactId>
+    <version>3</version>
+  </parent>
+
+  <groupId>com.walmart.devtools.boosh</groupId>
+  <artifactId>boosh</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <packaging>pom</packaging>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <properties>
+    <gshell.version>3.0.0-SNAPSHOT</gshell.version>
+
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>walmart-gec</id>
+      <url>http://gec-nexus.prod.glb.prod.walmart.com/nexus/content/groups/devtools-public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>walmart-gec</id>
+      <url>http://gec-nexus.prod.glb.prod.walmart.com/nexus/content/groups/devtools-public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <modules>
+    <module>boosh-commands</module>
+    <module>boosh-bootstrap</module>
+    <module>boosh-personality</module>
+    <module>boosh-assembly</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.planet57.gshell</groupId>
+        <artifactId>gshell</artifactId>
+        <type>pom</type>
+        <version>${gshell.version}</version>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.planet57.gshell</groupId>
+        <artifactId>gshell-core</artifactId>
+        <version>${gshell.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.oneops.boo</groupId>
+        <artifactId>boo</artifactId>
+        <version>1.0.7</version>
+      </dependency>
+
+      <!-- INTERNAL -->
+
+      <dependency>
+        <groupId>com.walmart.devtools.boosh</groupId>
+        <artifactId>boosh-bootstrap</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.walmart.devtools.boosh</groupId>
+        <artifactId>boosh-commands</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.walmart.devtools.boosh</groupId>
+        <artifactId>boosh-personality</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.walmart.devtools.boosh</groupId>
+        <artifactId>boosh-assembly</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.groovy</groupId>
+              <artifactId>groovy-eclipse-compiler</artifactId>
+              <version>2.9.2-01</version>
+            </dependency>
+            <dependency>
+              <groupId>org.codehaus.groovy</groupId>
+              <artifactId>groovy-eclipse-batch</artifactId>
+              <version>2.4.3-01</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <compilerId>groovy-eclipse-compiler</compilerId>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <configuration>
+            <excludes combine.children="append">
+              <!--
+              Assembly resources
+              -->
+              <exclude>boosh-assembly/src/main/resources/**</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-versions</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>[3.5,)</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>[1.8,)</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.sisu</groupId>
+        <artifactId>sisu-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>main-index</goal>
+              <goal>test-index</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <signature>
+                <groupId>org.codehaus.mojo.signature</groupId>
+                <artifactId>java18</artifactId>
+                <version>1.0</version>
+              </signature>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

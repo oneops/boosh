@@ -56,5 +56,5 @@ fi
 
 COMMAND=""
 
-exec "$JAVACMD" $MAVEN_OPTS -jar "$BOOTJAR" $SHELL_OPTS $COMMAND "$@"
+exec "$JAVACMD" $JAVA_OPTS -jar "$BOOTJAR" $SHELL_OPTS $COMMAND "$@"
 

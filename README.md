@@ -19,6 +19,8 @@
 
 Boo Shell (`boosh`)
 
+See [Boo](https://github.com/oneops/boo).
+
 Based on [GShell 3](https://github.com/jdillon/gshell).
 
 # Building

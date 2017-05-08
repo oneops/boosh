@@ -41,7 +41,7 @@
       <artifactId>boo</artifactId>
       <exclusions>
         <!--
-        TODO: boo uses guice 4.1; gshell still on 4.0
+        Boo includes aop guice; gshell uses non-aop version
         -->
         <exclusion>
           <groupId>com.google.inject</groupId>

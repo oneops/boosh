@@ -17,9 +17,7 @@
 -->
 # Description
 
-Boo Shell (`boosh`)
-
-See [Boo](https://github.com/oneops/boo).
+[Boo](https://github.com/oneops/boo) Shell (`boosh`)
 
 Based on [GShell 3](https://github.com/jdillon/gshell).
 

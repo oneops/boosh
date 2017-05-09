@@ -67,7 +67,7 @@ public class BrandingImpl
 
   @Override
   public File getUserContextDir() {
-    return new File(getUserHomeDir(), ".boosh");
+    return new File(getUserHomeDir(), ".boo");
   }
 
   @Override

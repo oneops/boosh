@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BOOTSCRIPT="$HOME/.boosh/boosh.boot"
+BOOTSCRIPT="$HOME/.boo/boosh.boot"
 if [ -f "$BOOTSCRIPT" ] ; then
     . "$BOOTSCRIPT"
 fi

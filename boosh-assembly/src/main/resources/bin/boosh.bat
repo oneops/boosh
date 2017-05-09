@@ -9,7 +9,7 @@ if "%DIRNAME%" == "" set DIRNAME=.\
 
 if "%HOME%" == "" (set "HOME=%HOMEDRIVE%%HOMEPATH%")
 
-set BOOTSCRIPT=%HOME%\.boosh\boosh.boot.bat
+set BOOTSCRIPT=%HOME%\.boo\boosh.boot.bat
 if exist "%BOOTSCRIPT%" call "%BOOTSCRIPT%"
 
 :check_JAVACMD

@@ -16,25 +16,16 @@
 package com.oneops.boo.shell.commands
 
 import com.planet57.gshell.testharness.CommandTestSupport
-import org.junit.Test
 
 /**
- * Tests for {@link BooAction}.
+ * Tests for {@link StatusAction}.
  */
-class BooActionTest
+class StatusActionTest
     extends CommandTestSupport
 {
-  BooActionTest() {
-    super(BooAction.class)
+  StatusActionTest() {
+    super(StatusAction.class)
   }
 
-  /**
-   * Customized help test as this isn't using the default help support by gshell.
-   */
-  @Override
-  @Test
-  void testHelp() {
-    assert executeCommand('--help') == 0
-    assert executeCommand('-h') == 0
-  }
+  // TODO: add tests
 }

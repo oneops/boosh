@@ -21,8 +21,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.walmart.devtools.buildsupport</groupId>
-    <artifactId>public-parent</artifactId>
+    <groupId>com.oneops</groupId>
+    <artifactId>buildsupport</artifactId>
     <version>3</version>
   </parent>
 

@@ -22,7 +22,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
 import com.oneops.api.OOInstance;
 import com.oneops.boo.ClientConfig;
 import com.oneops.boo.utils.BooUtils;

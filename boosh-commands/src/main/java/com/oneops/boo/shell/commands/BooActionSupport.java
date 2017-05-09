@@ -54,7 +54,7 @@ public abstract class BooActionSupport
    * Construct a new client configuration.
    */
   protected ClientConfig createClientConfig() throws Exception {
-    log.debug("Creating configuration; template={}, profile={}", template, profile);
+    log.debug("Creating client-configuration; template={}, profile={}", template, profile);
 
     ClientConfig config = new ClientConfig(template, profile);
     new BooUtils().verifyTemplate(config);

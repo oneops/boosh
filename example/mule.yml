@@ -1,0 +1,48 @@
+boo:
+  oneops_host: '{{host}}'
+  organization: '{{organization}}'
+  api_key: '{{api_key}}'
+  email: '{{email}}'
+  environment_name: 'dev'
+  ip_output: 'json'
+
+assembly:
+  name: '{{username}}-mule'
+  auto_gen: false
+
+platforms:
+  {{username}}-mule:
+    deploy_order: 1
+    pack: oneops/custom
+    pack_version: '1'
+
+    components:
+      os:
+        ostype: centos-7.3
+
+      compute:
+        size: S
+        require_public_ip: true
+
+      user:
+        user-{{username}}:
+          system_account: true
+          sudoer: true
+          username: '{{username}}'
+          authorized_keys: '["{{file(~/.ssh/id_rsa.pub)}}"]'
+
+      secgroup:
+        inbound: '[
+          "22 22 tcp 0.0.0.0/0"
+        ]'
+
+environment:
+  global_dns: 'true'
+  availability: 'single'
+  subdomain: '' # environment_name.assembly_name
+  profile: 'DEV'
+  clouds:
+    {{cloud}}:
+      priority: '1'
+      dpmt_order: '1'
+      pct_scale: '100'

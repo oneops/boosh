@@ -26,6 +26,8 @@ import com.planet57.gshell.util.cli2.Option;
 import javax.annotation.Nullable;
 import java.io.File;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Support for Boo actions.
  */
@@ -42,10 +44,15 @@ public abstract class BooActionSupport
   @Option(name="a", longName = "assembly", description = "Override assembly name", token="NAME")
   protected String assembly;
 
+  // FIXME: comment doesn't seem general, but its required to construct a BuildAllPlatforms which is why its here
+
   @Nullable
   @Option(name="m", longName = "message", description = "Customize comment for deployment", token = "MESSAGE")
   protected String comment;
 
+  /**
+   * Construct a new configuration.
+   */
   protected ClientConfig createConfig() throws Exception {
     ClientConfig config = new ClientConfig(template, profile);
     new BooUtils().verifyTemplate(config);
@@ -57,7 +64,12 @@ public abstract class BooActionSupport
     return config;
   }
 
+  /**
+   * Construct a new flow with configuration.
+   */
   protected BuildAllPlatforms createFlow(final ClientConfig config) throws Exception {
+    checkNotNull(config);
+
     OOInstance oo = new OOInstance();
     BooBean boo = config.getYaml().getBoo();
     oo.setAuthtoken(boo.getApikey());

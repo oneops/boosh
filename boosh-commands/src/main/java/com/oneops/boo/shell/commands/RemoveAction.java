@@ -22,6 +22,7 @@ import javax.annotation.Nonnull;
 
 import com.oneops.boo.ClientConfig;
 import com.oneops.boo.workflow.BuildAllPlatforms;
+import com.oneops.boo.yaml.AssemblyBean;
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandContext;
 
@@ -39,25 +40,16 @@ public class RemoveAction
     ClientConfig config = createConfig();
     BuildAllPlatforms flow = createFlow(config);
 
-    List<String> assemblies = Collections.emptyList();
-    if (config.getYaml().getAssembly().getAutoGen()) {
-      assemblies = listAutogenAssemblies(flow, config.getYaml().getAssembly().getName());
-    }
-    else {
-      String assembly = config.getYaml().getAssembly().getName();
-      if (flow.isAssemblyExist(assembly)) {
-        assemblies = Collections.singletonList(assembly);
-      }
-    }
-
+    List<String> assemblies = collectAssemblies(config, flow);
     checkState(!assemblies.isEmpty(), "Nothing to remove");
 
-    // TODO: query user if not forced
+    // TODO: ask user if not forced; with LineReader
 
     for (String assembly : assemblies) {
       log.debug("Removing assembly: {}", assembly);
 
       if (flow.isAssemblyExist(assembly)) {
+        // TODO: sort out return values for these and actions to take BooCli impl unclear
         flow.removeAllEnvs();
         flow.removeAllPlatforms();
       }
@@ -66,8 +58,24 @@ public class RemoveAction
     return null;
   }
 
-  private List<String> listAutogenAssemblies(final BuildAllPlatforms flow, final String prefix) {
-    checkState(prefix != null && !prefix.trim().isEmpty(), "Prefix of assembly must not be empty");
-    return flow.getAllAutoGenAssemblies(prefix);
+  /**
+   * Collect all assembly names to remove.
+   */
+  private List<String> collectAssemblies(final ClientConfig config, final BuildAllPlatforms flow) {
+    AssemblyBean assembly = config.getYaml().getAssembly();
+
+    if (assembly.getAutoGen()) {
+      String prefix = assembly.getName();
+      checkState(prefix != null && !prefix.trim().isEmpty(), "Prefix of assembly must not be empty");
+      return flow.getAllAutoGenAssemblies(prefix);
+    }
+    else {
+      String name = assembly.getName();
+      if (flow.isAssemblyExist(name)) {
+        return Collections.singletonList(name);
+      }
+    }
+
+    return Collections.emptyList();
   }
 }

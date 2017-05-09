@@ -36,6 +36,8 @@ public class StatusAction
     log.debug("Fetching status of assembly: {}", config.getYaml().getAssembly().getName());
 
     BuildAllPlatforms flow = createFlow(config);
+
+    // TODO: consider colors for status; and/or if there is more detail we want to display here
     context.getIo().println(flow.getStatus());
 
     return null;

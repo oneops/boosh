@@ -55,10 +55,15 @@ public class CreateAction
 
     flow.process(false, disableDeploy);
 
+    // TODO: may want an option to wait for the assembly to complete deployment (and/or fail deployment)
+
     return null;
   }
 
-    private static String randomName(@Nullable final String basis) {
+  /**
+   * Generate a random name based on another string.
+   */
+  private static String randomName(@Nullable final String basis) {
     if (basis == null) {
       return randomString("");
     }

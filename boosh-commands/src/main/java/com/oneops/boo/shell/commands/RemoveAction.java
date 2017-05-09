@@ -25,6 +25,11 @@ import com.oneops.boo.workflow.BuildAllPlatforms;
 import com.oneops.boo.yaml.AssemblyBean;
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandContext;
+import com.planet57.gshell.util.cli2.Option;
+import com.planet57.gshell.util.i18n.I18N;
+import com.planet57.gshell.util.i18n.MessageBundle;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -35,6 +40,18 @@ import static com.google.common.base.Preconditions.checkState;
 public class RemoveAction
   extends BooActionSupport
 {
+  private interface Messages
+    extends MessageBundle
+  {
+    @DefaultMessage("Remove assembly '%s' (yes/no): ")
+    String removeAssembly(String name);
+  }
+
+  private static final Messages messages = I18N.create(Messages.class);
+
+  @Option(longName = "force", description = "Force removal")
+  private boolean force = false;
+
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
     ClientConfig config = createConfig();
@@ -43,7 +60,19 @@ public class RemoveAction
     List<String> assemblies = collectAssemblies(config, flow);
     checkState(!assemblies.isEmpty(), "Nothing to remove");
 
-    // TODO: ask user if not forced; with LineReader
+    // if not forced; ask user to confirm before removing
+    if (!force) {
+      LineReader lineReader = LineReaderBuilder.builder()
+        .terminal(context.getIo().terminal)
+        .build();
+
+      String result = lineReader.readLine(messages.removeAssembly(config.getYaml().getAssembly().getName()));
+
+      // abort if user response is not "yes"
+      if (!result.trim().equals("yes")) {
+        return 1;
+      }
+    }
 
     for (String assembly : assemblies) {
       log.debug("Removing assembly: {}", assembly);

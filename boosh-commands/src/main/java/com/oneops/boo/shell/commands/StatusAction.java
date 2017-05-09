@@ -22,6 +22,8 @@ import com.oneops.boo.workflow.BuildAllPlatforms;
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandContext;
 
+import static com.google.common.base.Preconditions.checkState;
+
 /**
  * Get status of deployments.
  */
@@ -33,11 +35,15 @@ public class StatusAction
   public Object execute(@Nonnull final CommandContext context) throws Exception {
     ClientConfig config = createConfig();
 
-    log.debug("Fetching status of assembly: {}", config.getYaml().getAssembly().getName());
-
     BuildAllPlatforms flow = createFlow(config);
 
+    // complain if assembly is missing
+    String name = config.getYaml().getAssembly().getName();
+    checkState(flow.isAssemblyExist(), "Missing assembly: %s", name);
+
     // TODO: consider colors for status; and/or if there is more detail we want to display here
+
+    log.debug("Fetching status of assembly: {}", name);
     context.getIo().println(flow.getStatus());
 
     return null;

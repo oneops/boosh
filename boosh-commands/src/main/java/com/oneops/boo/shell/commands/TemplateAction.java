@@ -28,15 +28,15 @@ import java.io.File;
 import static com.google.common.base.Preconditions.checkState;
 
 /**
- * Display configuration.
+ * Display template.
  */
-@Command(name="boo/config", description = "Display configuration")
-public class ConfigAction
+@Command(name="boo/template", description = "Display template")
+public class TemplateAction
   extends BooActionSupport
 {
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
-    ClientConfig config = createConfig();
+    ClientConfig config = createClientConfig();
 
     File iniFile = ClientConfig.ONEOPS_CONFIG;
     checkState(iniFile.exists(), "Missing: %s", iniFile);

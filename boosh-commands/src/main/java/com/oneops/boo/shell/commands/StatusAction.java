@@ -33,7 +33,7 @@ public class StatusAction
 {
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
-    ClientConfig config = createConfig();
+    ClientConfig config = createClientConfig();
 
     BuildAllPlatforms flow = createFlow(config);
 

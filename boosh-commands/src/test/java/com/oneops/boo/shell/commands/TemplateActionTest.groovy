@@ -18,13 +18,13 @@ package com.oneops.boo.shell.commands
 import com.planet57.gshell.testharness.CommandTestSupport
 
 /**
- * Tests for {@link ConfigAction}.
+ * Tests for {@link TemplateAction}.
  */
-class ConfigActionTest
+class TemplateActionTest
     extends CommandTestSupport
 {
-  ConfigActionTest() {
-    super(ConfigAction.class)
+  TemplateActionTest() {
+    super(TemplateAction.class)
   }
 
   // TODO: add tests

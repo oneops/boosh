@@ -38,7 +38,7 @@ public class CreateAction
 
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
-    ClientConfig config = createConfig();
+    ClientConfig config = createClientConfig();
 
     // auto-generate assembly name if configured
     if (config.getYaml().getAssembly().getAutoGen()) {

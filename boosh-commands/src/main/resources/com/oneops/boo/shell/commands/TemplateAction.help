@@ -24,7 +24,7 @@
 
 @|bold DESCRIPTION|@
 
-  Display runtime configuration.
+  Display template.
 
 @{command.details}
 

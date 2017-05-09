@@ -34,10 +34,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public abstract class BooActionSupport
   extends CommandActionSupport
 {
-  @Option(name="f", longName = "file", required = true, description = "Use template", token = "FILE")
+  @Option(name="f", longName = "file", required = true, description = "Specify template file", token = "FILE")
   protected File template;
 
-  @Option(name="p", longName = "profile", description = "Use profile", token = "PROFILE")
+  @Option(name="p", longName = "profile", description = "Specify configuration profile", token = "PROFILE")
   protected String profile = ClientConfig.ONEOPS_DEFAULT_PROFILE;
 
   @Nullable
@@ -51,9 +51,9 @@ public abstract class BooActionSupport
   protected String comment;
 
   /**
-   * Construct a new configuration.
+   * Construct a new client configuration.
    */
-  protected ClientConfig createConfig() throws Exception {
+  protected ClientConfig createClientConfig() throws Exception {
     log.debug("Creating configuration; template={}, profile={}", template, profile);
 
     ClientConfig config = new ClientConfig(template, profile);

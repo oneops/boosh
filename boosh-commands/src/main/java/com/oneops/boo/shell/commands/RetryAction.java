@@ -33,7 +33,7 @@ public class RetryAction
 {
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
-    ClientConfig config = createConfig();
+    ClientConfig config = createClientConfig();
     BuildAllPlatforms flow = createFlow(config);
 
     checkState(flow.isAssemblyExist(), "Missing assembly: %s", config.getYaml().getAssembly().getName());

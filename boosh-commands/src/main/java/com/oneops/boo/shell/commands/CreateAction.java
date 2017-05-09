@@ -16,6 +16,7 @@
 package com.oneops.boo.shell.commands;
 
 import java.io.File;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,13 +30,11 @@ import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandContext;
 import com.planet57.gshell.util.cli2.Option;
 
-import static com.google.common.base.Preconditions.checkState;
-
 /**
- * Get status of deployments.
+ * Create a new assembly.
  */
-@Command(name="boo/status", description = "Get status of deployments")
-public class StatusAction
+@Command(name="boo/create", description = "Create a new assembly")
+public class CreateAction
   extends BooActionSupport
 {
   @Option(name="f", longName = "file", required = true, description = "Use template", token = "FILE")
@@ -52,16 +51,24 @@ public class StatusAction
   @Option(name="m", longName = "message", description = "Customize comment for deployment", token = "MESSAGE")
   private String comment;
 
+  @Option(longName = "no-deploy", description = "Disable deployment")
+  private boolean disableDeploy;
+
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
     ClientConfig config = new ClientConfig(template, profile);
     new BooUtils().verifyTemplate(config);
 
+    // auto-generate assembly name if configured
+    if (config.getYaml().getAssembly().getAutoGen()) {
+      assembly = randomName(assembly);
+    }
+
     if (assembly != null) {
       config.getYaml().getAssembly().setName(assembly);
     }
 
-    log.debug("Fetching status of assembly: {}", config.getYaml().getAssembly().getName());
+    log.debug("Creating assembly: {}", config.getYaml().getAssembly().getName());
 
     OOInstance oo = new OOInstance();
     BooBean boo = config.getYaml().getBoo();
@@ -71,10 +78,26 @@ public class StatusAction
     oo.setGzipEnabled(boo.isGzipEnabled());
 
     BuildAllPlatforms flow = new BuildAllPlatforms(oo, config, comment);
-    checkState(flow.isAssemblyExist(), "Assembly not found: %s", config.getYaml().getAssembly().getName());
 
-    context.getIo().println(flow.getStatus());
+    flow.process(false, disableDeploy);
 
     return null;
+  }
+
+  private static String randomName(@Nullable final String basis) {
+    if (basis == null) {
+      return randomString("");
+    }
+    else {
+      return String.format("%s-%s", basis, randomString(basis));
+    }
+  }
+
+  private static String randomString(final String basis) {
+    StringBuilder name = new StringBuilder();
+    int rand = 32 - basis.length() - 1;
+    rand = rand > 8 ? 8 : rand;
+    name.append(UUID.randomUUID().toString().substring(0, rand));
+    return name.toString();
   }
 }

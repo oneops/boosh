@@ -79,9 +79,9 @@ public class RemoveAction
       assemblies = listAutogenAssemblies(flow, config.getYaml().getAssembly().getName());
     }
     else {
-      String assembly = config.getYaml().getAssembly().getName();;
+      String assembly = config.getYaml().getAssembly().getName();
       if (flow.isAssemblyExist(assembly)) {
-        assemblies = ImmutableList.of(assembly);
+        assemblies = Collections.singletonList(assembly);
       }
     }
 

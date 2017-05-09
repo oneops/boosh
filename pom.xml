@@ -50,29 +50,16 @@
 
   <repositories>
     <repository>
-      <id>walmart-gec</id>
-      <url>http://gec-nexus.prod.glb.prod.walmart.com/nexus/content/groups/devtools-public</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
       <releases>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
     </repository>
   </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>walmart-gec</id>
-      <url>http://gec-nexus.prod.glb.prod.walmart.com/nexus/content/groups/devtools-public</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
 
   <modules>
     <module>boosh-commands</module>

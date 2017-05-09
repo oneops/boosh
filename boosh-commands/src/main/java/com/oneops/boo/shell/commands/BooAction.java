@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Execute Boo.
  */
-@Command(name="boo", description = "Execute Boo")
+@Command(name="boo/boo", description = "Execute Boo")
 public class BooAction
   extends CommandActionSupport
   implements OpaqueArguments
@@ -37,7 +37,12 @@ public class BooAction
   @Override
   public Object execute(final @Nonnull CommandContext context) throws Exception {
     BooCli boo = new BooCli();
-    return boo.parse(strings(context.getArguments()));
+    try {
+      return boo.parse(strings(context.getArguments()));
+    }
+    finally {
+      context.getIo().flush();
+    }
   }
 
   private static String[] strings(final List<?> input) {

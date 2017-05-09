@@ -15,7 +15,16 @@
  */
 package com.oneops.boo.shell.commands;
 
+import com.oneops.api.OOInstance;
+import com.oneops.boo.ClientConfig;
+import com.oneops.boo.utils.BooUtils;
+import com.oneops.boo.workflow.BuildAllPlatforms;
+import com.oneops.boo.yaml.BooBean;
 import com.planet57.gshell.command.CommandActionSupport;
+import com.planet57.gshell.util.cli2.Option;
+
+import javax.annotation.Nullable;
+import java.io.File;
 
 /**
  * Support for Boo actions.
@@ -23,5 +32,39 @@ import com.planet57.gshell.command.CommandActionSupport;
 public abstract class BooActionSupport
   extends CommandActionSupport
 {
-  // TODO: fill in with common bits once we figure that out
+  @Option(name="f", longName = "file", required = true, description = "Use template", token = "FILE")
+  protected File template;
+
+  @Option(name="p", longName = "profile", description = "Use profile", token = "PROFILE")
+  protected String profile = ClientConfig.ONEOPS_DEFAULT_PROFILE;
+
+  @Nullable
+  @Option(name="a", longName = "assembly", description = "Override assembly name", token="NAME")
+  protected String assembly;
+
+  @Nullable
+  @Option(name="m", longName = "message", description = "Customize comment for deployment", token = "MESSAGE")
+  protected String comment;
+
+  protected ClientConfig createConfig() throws Exception {
+    ClientConfig config = new ClientConfig(template, profile);
+    new BooUtils().verifyTemplate(config);
+
+    if (assembly != null) {
+      config.getYaml().getAssembly().setName(assembly);
+    }
+
+    return config;
+  }
+
+  protected BuildAllPlatforms createFlow(final ClientConfig config) throws Exception {
+    OOInstance oo = new OOInstance();
+    BooBean boo = config.getYaml().getBoo();
+    oo.setAuthtoken(boo.getApikey());
+    oo.setOrgname(boo.getOrg());
+    oo.setEndpoint(boo.getHost());
+    oo.setGzipEnabled(boo.isGzipEnabled());
+
+    return new BuildAllPlatforms(oo, config, comment);
+  }
 }

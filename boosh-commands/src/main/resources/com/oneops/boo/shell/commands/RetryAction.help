@@ -16,7 +16,7 @@
 
 @|bold NAME|@
 
-  @{command.name} - @{command.description}
+  @{command.name}
 
 @|bold SYNOPSIS|@
 
@@ -24,7 +24,7 @@
 
 @|bold DESCRIPTION|@
 
-  Retry deployments.
+  @{command.description}
 
 @{command.details}
 

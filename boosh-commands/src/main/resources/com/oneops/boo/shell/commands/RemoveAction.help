@@ -16,7 +16,7 @@
 
 @|bold NAME|@
 
-  @{command.name} - @{command.description}
+  @{command.name}
 
 @|bold SYNOPSIS|@
 
@@ -24,7 +24,7 @@
 
 @|bold DESCRIPTION|@
 
-  Remove OneOps deployment configurations.
+  @{command.description}
 
 @{command.details}
 

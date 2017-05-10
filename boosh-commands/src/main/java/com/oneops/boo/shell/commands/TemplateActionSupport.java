@@ -22,6 +22,8 @@ import com.oneops.boo.workflow.BuildAllPlatforms;
 import com.oneops.boo.yaml.BooBean;
 import com.planet57.gshell.command.CommandActionSupport;
 import com.planet57.gshell.util.cli2.Option;
+import com.planet57.gshell.util.i18n.I18N;
+import com.planet57.gshell.util.i18n.MessageBundle;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -35,6 +37,15 @@ import static com.google.common.base.Preconditions.checkState;
 public abstract class TemplateActionSupport
   extends CommandActionSupport
 {
+  private interface Messages
+    extends MessageBundle
+  {
+    @DefaultMessage("Missing assembly: %s")
+    String missingAssermbly(String name);
+  }
+
+  private static final Messages messages = I18N.create(Messages.class);
+
   @Option(name="f", longName = "file", required = true, description = "Specify template file", token = "FILE")
   protected File template;
 
@@ -87,6 +98,8 @@ public abstract class TemplateActionSupport
    * Ensure that configured assembly exists.
    */
   protected void ensureAssemblyExists(final BuildAllPlatforms flow) {
-    checkState(flow.isAssemblyExist(), "Missing assembly: %s", flow.getConfig().getYaml().getAssembly().getName());
+    checkNotNull(flow);
+
+    checkState(flow.isAssemblyExist(), messages.missingAssermbly(flow.getConfig().getYaml().getAssembly().getName()));
   }
 }

@@ -15,8 +15,6 @@
  */
 package com.oneops.boo.shell.commands;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -75,7 +73,7 @@ public class GetIpsAction
     ClientConfig config = createClientConfig();
     BuildAllPlatforms flow = createFlow(config);
 
-    checkState(flow.isAssemblyExist(), "Missing assembly: %s", config.getYaml().getAssembly().getName());
+    ensureAssemblyExists(flow);
 
     IO io = context.getIo();
 

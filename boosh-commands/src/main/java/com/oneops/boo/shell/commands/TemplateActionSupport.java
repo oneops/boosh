@@ -27,6 +27,7 @@ import javax.annotation.Nullable;
 import java.io.File;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Support for Boo actions which require a template.
@@ -80,5 +81,12 @@ public abstract class TemplateActionSupport
     oo.setGzipEnabled(boo.isGzipEnabled());
 
     return new BuildAllPlatforms(oo, config, comment);
+  }
+
+  /**
+   * Ensure that configured assembly exists.
+   */
+  protected void ensureAssemblyExists(final BuildAllPlatforms flow) {
+    checkState(flow.isAssemblyExist(), "Missing assembly: %s", flow.getConfig().getYaml().getAssembly().getName());
   }
 }

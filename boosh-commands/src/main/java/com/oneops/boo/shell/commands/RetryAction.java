@@ -22,8 +22,6 @@ import com.oneops.boo.workflow.BuildAllPlatforms;
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandContext;
 
-import static com.google.common.base.Preconditions.checkState;
-
 /**
  * Retry deployments.
  */
@@ -36,7 +34,7 @@ public class RetryAction
     ClientConfig config = createClientConfig();
     BuildAllPlatforms flow = createFlow(config);
 
-    checkState(flow.isAssemblyExist(), "Missing assembly: %s", config.getYaml().getAssembly().getName());
+    ensureAssemblyExists(flow);
 
     flow.retryDeployment();
 

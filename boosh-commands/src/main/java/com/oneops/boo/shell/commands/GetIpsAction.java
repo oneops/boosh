@@ -40,7 +40,7 @@ import java.util.Map;
  */
 @Command(name="boo/get-ips", description = "Display IP addresses")
 public class GetIpsAction
-  extends BooActionSupport
+  extends TemplateActionSupport
 {
   private interface Messages
     extends MessageBundle

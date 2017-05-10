@@ -31,7 +31,7 @@ import com.planet57.gshell.util.cli2.Option;
  */
 @Command(name="boo/create", description = "Create a new assembly")
 public class CreateAction
-  extends BooActionSupport
+  extends TemplateActionSupport
 {
   @Option(longName = "no-deploy", description = "Disable deployment")
   private boolean disableDeploy;

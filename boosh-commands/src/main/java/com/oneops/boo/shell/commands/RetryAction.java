@@ -29,7 +29,7 @@ import static com.google.common.base.Preconditions.checkState;
  */
 @Command(name="boo/retry", description = "Retry deployments")
 public class RetryAction
-  extends BooActionSupport
+  extends TemplateActionSupport
 {
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {

@@ -32,7 +32,7 @@ import static com.google.common.base.Preconditions.checkState;
  */
 @Command(name="boo/template", description = "Display template")
 public class TemplateAction
-  extends BooActionSupport
+  extends TemplateActionSupport
 {
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {

@@ -38,7 +38,7 @@ import static com.google.common.base.Preconditions.checkState;
  */
 @Command(name="boo/remove", description = "Remove deployed configurations")
 public class RemoveAction
-  extends BooActionSupport
+  extends TemplateActionSupport
 {
   private interface Messages
     extends MessageBundle

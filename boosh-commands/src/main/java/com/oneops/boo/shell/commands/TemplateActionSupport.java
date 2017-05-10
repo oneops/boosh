@@ -29,9 +29,9 @@ import java.io.File;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Support for Boo actions.
+ * Support for Boo actions which require a template.
  */
-public abstract class BooActionSupport
+public abstract class TemplateActionSupport
   extends CommandActionSupport
 {
   @Option(name="f", longName = "file", required = true, description = "Specify template file", token = "FILE")

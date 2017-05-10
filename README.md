@@ -34,7 +34,7 @@ Based on [GShell 3](https://github.com/jdillon/gshell).
 
 Check out and build:
 
-    git clone git://github.com/jdillon/boosh.git
+    git clone git://github.com/oneops/boosh.git
     cd boosh
     ./build rebuild
 

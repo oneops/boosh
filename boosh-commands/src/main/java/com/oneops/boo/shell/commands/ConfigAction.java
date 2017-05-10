@@ -15,38 +15,46 @@
  */
 package com.oneops.boo.shell.commands;
 
-import javax.annotation.Nonnull;
-
-import com.oneops.boo.ClientConfig;
-import com.oneops.boo.ClientConfigIniReader;
-import com.oneops.boo.ClientConfigInterpolator;
-import com.planet57.gshell.command.Command;
-import com.planet57.gshell.command.CommandContext;
+import static com.google.common.base.Preconditions.checkState;
 
 import java.io.File;
 
-import static com.google.common.base.Preconditions.checkState;
+import javax.annotation.Nonnull;
+
+import com.oneops.boo.ClientConfig;
+import com.planet57.gshell.command.Command;
+import com.planet57.gshell.command.CommandActionSupport;
+import com.planet57.gshell.command.CommandContext;
+import com.planet57.gshell.command.IO;
+import org.ini4j.Ini;
+import org.ini4j.Wini;
 
 /**
- * Display template.
+ * Display configuration.
  */
-@Command(name="boo/template", description = "Display template")
-public class TemplateAction
-  extends BooActionSupport
+@Command(name="boo/config", description = "Display configuration")
+public class ConfigAction
+  extends CommandActionSupport
 {
+  // TODO: consider adding options to get a specific value, as well as set a specific value
+
+  // TODO: consider refactoring to all user to change the location of ~/.boo/config
+
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
-    File iniFile = ClientConfig.ONEOPS_CONFIG;
-    checkState(iniFile.exists(), "Missing: %s", iniFile);
+    File file = ClientConfig.ONEOPS_CONFIG;
+    checkState(file.exists(), "Missing: %s", file);
 
-    ClientConfigIniReader iniReader = new ClientConfigIniReader();
-    checkState(iniReader.read(iniFile, profile) != null,
-      "Invalid profile: %s", profile);
+    IO io = context.getIo();
+    Ini ini = new Wini(file);
+    log.debug("Loaded INI: {}", ini);
 
-    ClientConfigInterpolator interpolator = new ClientConfigInterpolator();
-    String yaml = interpolator.interpolate(template, iniFile, profile);
-
-    context.getIo().println(yaml);
+    ini.forEach((name, section) -> {
+      io.format("[@|green %s|@]%n", name);
+      section.forEach((key, value) -> {
+        io.format("  @|bold %s|@: %s%n", key, value);
+      });
+    });
 
     return null;
   }

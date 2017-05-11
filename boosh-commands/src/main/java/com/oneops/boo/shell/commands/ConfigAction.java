@@ -15,16 +15,20 @@
  */
 package com.oneops.boo.shell.commands;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.io.File;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.oneops.boo.ClientConfig;
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandActionSupport;
 import com.planet57.gshell.command.CommandContext;
+import com.planet57.gshell.util.NameValue;
+import com.planet57.gshell.util.cli2.Option;
 import com.planet57.gshell.util.io.IO;
 import org.ini4j.Ini;
 
@@ -35,26 +39,96 @@ import org.ini4j.Ini;
 public class ConfigAction
   extends CommandActionSupport
 {
-  // TODO: consider adding options to get a specific value, as well as set a specific value
-
   // TODO: consider refactoring to all user to change the location of ~/.boo/config
+
+  @Nullable
+  @Option(name="g", longName = "get", description = "Get configuration value", token = "[SECTION/]KEY")
+  private String getPath;
+
+  @Nullable
+  @Option(name="s", longName = "set", description = "Set configuration value", token = "[SECTION/]KEY=VALUE")
+  private String setPathValue;
 
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
     File file = ClientConfig.ONEOPS_CONFIG;
     checkState(file.exists(), "Missing: %s", file);
 
-    IO io = context.getIo();
+    // complain if both --get and --set are configured
+    if (getPath != null && setPathValue != null) {
+      throw new IllegalArgumentException("Only one of --set or --get is allowed");
+    }
+
     Ini ini = new Ini(file);
     log.debug("Loaded INI: {}", ini);
 
-    ini.forEach((name, section) -> {
-      io.format("[@|green %s|@]%n", name);
-      section.forEach((key, value) -> {
-        io.format("  @|bold %s|@: %s%n", key, value);
-      });
-    });
+    IO io = context.getIo();
 
-    return null;
+    if (getPath != null) {
+      SectionKey sectionKey = SectionKey.parse(getPath);
+      log.debug("Getting value of: {}", sectionKey);
+      String value = ini.get(sectionKey.section, sectionKey.key);
+      io.println(value);
+      return value;
+    }
+    else if (setPathValue != null) {
+      NameValue nameValue = NameValue.parse(setPathValue);
+      SectionKey sectionKey = SectionKey.parse(nameValue.name);
+      log.debug("Setting value of: {} -> {}", sectionKey, nameValue.value);
+      ini.put(sectionKey.section, sectionKey.key, nameValue.value);
+      ini.store();
+      return null;
+    }
+    else {
+      ini.forEach((name, section) -> {
+        io.format("[@|green %s|@]%n", name);
+        section.forEach((key, value) -> {
+          io.format("  @|bold %s|@: %s%n", key, value);
+        });
+      });
+      return null;
+    }
+  }
+
+  /**
+   * Helper to parse our "section/key" pattern from input.
+   */
+  private static class SectionKey
+  {
+    public static final String DEFAULT_SECTION = "default";
+
+    public final String section;
+
+    public final String key;
+
+    private SectionKey(final String section, final String key) {
+      this.section = checkNotNull(section);
+      this.key = checkNotNull(key);
+    }
+
+    public static SectionKey parse(final String input) {
+      int sep = input.indexOf('/');
+      String section;
+      String key;
+
+      if (sep != -1) {
+        section = input.substring(0, sep);
+        key = input.substring(sep + 1, input.length());
+      }
+      else {
+        section = DEFAULT_SECTION;
+        key = input;
+      }
+
+      return new SectionKey(section, key);
+    }
+
+    @Override
+    public String toString() {
+      return "SectionKey{" +
+        "section='" + section + '\'' +
+        ", key='" + key + '\'' +
+        '}';
+    }
   }
 }

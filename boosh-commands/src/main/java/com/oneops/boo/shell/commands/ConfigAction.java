@@ -27,7 +27,6 @@ import com.planet57.gshell.command.CommandActionSupport;
 import com.planet57.gshell.command.CommandContext;
 import com.planet57.gshell.util.io.IO;
 import org.ini4j.Ini;
-import org.ini4j.Wini;
 
 /**
  * Display configuration.
@@ -46,7 +45,7 @@ public class ConfigAction
     checkState(file.exists(), "Missing: %s", file);
 
     IO io = context.getIo();
-    Ini ini = new Wini(file);
+    Ini ini = new Ini(file);
     log.debug("Loaded INI: {}", ini);
 
     ini.forEach((name, section) -> {

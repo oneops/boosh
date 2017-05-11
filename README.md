@@ -42,3 +42,20 @@ After this completes, you can unzip the assembly and launch the shell:
 
     ./build run
 
+Use the 'help' command for further assistance.
+
+    help boo
+
+Should produce something like:
+
+    Help pages in group boo:
+      config      Display configuration
+      create      Create a new assembly
+      get-ips     Display IP addresses
+      list        List assemblies
+      procedure   Invoke a procedure
+      remove      Remove deployed configurations
+      retry       Retry deployments
+      status      Get status of deployments
+      template    Display template
+      update      Update assemblies    

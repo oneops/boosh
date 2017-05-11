@@ -25,7 +25,7 @@ import com.oneops.boo.ClientConfig;
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandActionSupport;
 import com.planet57.gshell.command.CommandContext;
-import com.planet57.gshell.command.IO;
+import com.planet57.gshell.util.io.IO;
 import org.ini4j.Ini;
 import org.ini4j.Wini;
 

@@ -33,9 +33,9 @@ import com.planet57.gshell.util.io.IO;
 import org.ini4j.Ini;
 
 /**
- * Display configuration.
+ * Get and set configuration options.
  */
-@Command(name="boo/config", description = "Display configuration")
+@Command(name="boo/config", description = "Get and set configuration options")
 public class ConfigAction
   extends CommandActionSupport
 {

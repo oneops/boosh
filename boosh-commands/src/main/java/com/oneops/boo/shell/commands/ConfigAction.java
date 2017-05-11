@@ -42,6 +42,8 @@ public class ConfigAction
 {
   // TODO: consider refactoring to all user to change the location of ~/.boo/config
 
+  // TODO: consider replacing --get,--set flags with argument
+
   @Nullable
   @Option(name="g", longName = "get", description = "Get configuration value", token = "[SECTION/]KEY")
   private String getPath;

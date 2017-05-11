@@ -127,13 +127,13 @@ public class ConfigAction
     }
 
     public static SectionKey parse(final String input) {
-      int sep = input.indexOf('/');
       String section;
       String key;
 
-      if (sep != -1) {
-        section = input.substring(0, sep);
-        key = input.substring(sep + 1, input.length());
+      int i = input.indexOf('/');
+      if (i != -1) {
+        section = input.substring(0, i);
+        key = input.substring(i + 1, input.length());
       }
       else {
         section = DEFAULT_SECTION;

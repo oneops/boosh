@@ -21,6 +21,8 @@
 
 Based on [GShell 3](https://github.com/jdillon/gshell).
 
+**WARNING** Work-in-progress; GShell 3 and Boosh are undergoing rapid changes.
+
 # License
 
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)

@@ -55,15 +55,15 @@ public class BrandingImpl
   @Override
   public String getPrompt() {
     // FIXME: may need to adjust ansi-renderer syntax or pre-render before expanding to avoid needing escapes
-    return String.format("\\@\\|bold %s\\|\\@\\(${%s}\\):${%s}> ", getProgramName(), SHELL_GROUP, SHELL_USER_DIR);
+    return String.format("\\@\\|bold %s\\|\\@\\(${%s}\\)> ", getProgramName(), SHELL_GROUP);
   }
 
-  @Nullable
-  @Override
-  public String getRightPrompt() {
-    // FIXME: may need to adjust ansi-renderer syntax or pre-render before expanding to avoid needing escapes
-    return "\\@\\|intensity_faint $(date)\\|\\@";
-  }
+//  @Nullable
+//  @Override
+//  public String getRightPrompt() {
+//    // FIXME: may need to adjust ansi-renderer syntax or pre-render before expanding to avoid needing escapes
+//    return "\\@\\|intensity_faint $(date)\\|\\@";
+//  }
 
   @Override
   public File getUserContextDir() {

@@ -58,4 +58,19 @@ Should produce something like:
       retry       Retry deployments
       status      Get status of deployments
       template    Display template
-      update      Update assemblies    
+      update      Update assemblies
+
+# Known Issues
+
+## Unfinished Commands
+
+The following commands are yet to be finished:
+
+* boo/update
+* boo/procedure
+
+## TERM=ansi
+
+  `TERM=ansi` is known to cause strange behavior.  Workaround is to use `TERM=xterm-256color` or similar.
+  
+  https://github.com/jline/jline3/issues/123

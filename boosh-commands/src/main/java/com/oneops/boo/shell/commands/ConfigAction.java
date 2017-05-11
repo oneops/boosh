@@ -23,6 +23,7 @@ import java.io.File;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.oneops.boo.ClientConfig;
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandActionSupport;
@@ -109,7 +110,8 @@ public class ConfigAction
   /**
    * Helper to parse our "section/key" pattern from input.
    */
-  private static class SectionKey
+  @VisibleForTesting
+  static class SectionKey
   {
     public static final String DEFAULT_SECTION = "default";
 

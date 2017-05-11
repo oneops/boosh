@@ -95,4 +95,6 @@ The following commands are yet to be finished:
 
   `TERM=ansi` is known to cause strange behavior.  Workaround is to use `TERM=xterm-256color` or similar.
   
+  ie. `export TERM=xterm-256color` in the native shell to configure the TERM.
+  
   https://github.com/jline/jline3/issues/123

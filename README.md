@@ -49,7 +49,7 @@ Use the 'help' command for further assistance.
 Should produce something like:
 
     Help pages in group boo:
-      config      Display configuration
+      config      Get and set configuration options
       create      Create a new assembly
       get-ips     Display IP addresses
       list        List assemblies

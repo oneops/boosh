@@ -44,6 +44,12 @@ After this completes, you can unzip the assembly and launch the shell:
 
     ./build run
 
+# Running
+
+The `build run` here is just a simple helper to run the previously built assembly, and is equivalent to:
+
+    ./target/boosh-*/bin/boosh
+
 Use the 'help' command for further assistance.
 
     help boo
@@ -61,6 +67,20 @@ Should produce something like:
       status      Get status of deployments
       template    Display template
       update      Update assemblies
+
+Commands can be executed w/o an interactive shell as well:
+
+    ./build run boo/config
+
+Produces something similar to:
+
+    [default]
+      cloud: prod-cdc6
+      username: jdillo3
+      email: jdillon@walmartlabs.com
+      host: https://oneops.prod.walmart.com
+      api_key: XXXX
+      organization: devtools
 
 # Known Issues
 

@@ -49,15 +49,26 @@ public class ConfigAction
   @Option(name="s", longName = "set", description = "Set configuration value", token = "[SECTION/]KEY=VALUE")
   private String setPathValue;
 
+  @Nullable
+  @Option(name="r", longName = "remove", description = "Remove configuration value", token = "[SECTION/]KEY")
+  private String removePath;
+
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
     File file = ClientConfig.ONEOPS_CONFIG;
     checkState(file.exists(), "Missing: %s", file);
 
-    // complain if both --get and --set are configured
-    if (getPath != null && setPathValue != null) {
-      throw new IllegalArgumentException("Only one of --set or --get is allowed");
+    int count = 0;
+    if (getPath != null) {
+      count++;
     }
+    if (setPathValue != null) {
+      count++;
+    }
+    if (removePath != null) {
+      count++;
+    }
+    checkState(count <= 1, "Only one of --set, --get or --remove is allowed");
 
     Ini ini = new Ini(file);
     log.debug("Loaded INI: {}", ini);
@@ -69,7 +80,6 @@ public class ConfigAction
       log.debug("Getting value of: {}", sectionKey);
       String value = ini.get(sectionKey.section, sectionKey.key);
       io.println(value);
-      return value;
     }
     else if (setPathValue != null) {
       NameValue nameValue = NameValue.parse(setPathValue);
@@ -77,7 +87,12 @@ public class ConfigAction
       log.debug("Setting value of: {} -> {}", sectionKey, nameValue.value);
       ini.put(sectionKey.section, sectionKey.key, nameValue.value);
       ini.store();
-      return null;
+    }
+    else if (removePath != null) {
+      SectionKey sectionKey = SectionKey.parse(removePath);
+      log.debug("Removing value of: {}", sectionKey);
+      ini.remove(sectionKey.section, sectionKey.key);
+      ini.store();
     }
     else {
       ini.forEach((name, section) -> {
@@ -86,8 +101,9 @@ public class ConfigAction
           io.format("  @|bold %s|@: %s%n", key, value);
         });
       });
-      return null;
     }
+
+    return null;
   }
 
   /**

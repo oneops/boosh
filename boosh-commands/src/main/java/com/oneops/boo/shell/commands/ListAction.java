@@ -39,7 +39,7 @@ public class ListAction
   // FIXME: name here is confusing in BooCli; appears to be an assembly name or prefix?
 
   @Nullable
-  @Argument(required = false, description = "Identifier", token = "IDENTIFIER")
+  @Argument(description = "Identifier", token = "IDENTIFIER")
   private String prefix;
 
   @Override

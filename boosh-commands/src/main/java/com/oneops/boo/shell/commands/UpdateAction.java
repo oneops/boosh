@@ -51,6 +51,8 @@ public class UpdateAction
     }
     else {
       List<String> assemblies = flow.getAllAutoGenAssemblies(clientConfig.getYaml().getAssembly().getName());
+      log.debug("Assemblies: {}", assemblies);
+
       for (String assembly : assemblies) {
         // TODO: not terribly ideal to adjust existing config & re-create flow, but following BooCli impl
         clientConfig.getYaml().getAssembly().setName(assembly);

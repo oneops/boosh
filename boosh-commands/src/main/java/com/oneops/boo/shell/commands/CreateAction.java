@@ -20,6 +20,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.oneops.api.resource.model.Deployment;
 import com.oneops.boo.ClientConfig;
 import com.oneops.boo.workflow.BuildAllPlatforms;
 import com.planet57.gshell.command.Command;
@@ -53,7 +54,9 @@ public class CreateAction
 
     BuildAllPlatforms flow = createFlow(config);
 
-    flow.process(false, disableDeploy);
+    Deployment deployment = flow.process(false, disableDeploy);
+
+    // TODO: explain deployment
 
     // TODO: may want an option to wait for the assembly to complete deployment (and/or fail deployment)
 

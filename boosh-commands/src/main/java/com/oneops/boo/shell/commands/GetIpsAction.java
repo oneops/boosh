@@ -70,8 +70,8 @@ public class GetIpsAction
   
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
-    ClientConfig config = createClientConfig();
-    BuildAllPlatforms flow = createFlow(config);
+    ClientConfig clientConfig = createClientConfig();
+    BuildAllPlatforms flow = createFlow(clientConfig);
 
     ensureAssemblyExists(flow);
 

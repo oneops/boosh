@@ -53,16 +53,16 @@ public class RemoveAction
 
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
-    ClientConfig config = createClientConfig();
-    BuildAllPlatforms flow = createFlow(config);
+    ClientConfig clientConfig = createClientConfig();
+    BuildAllPlatforms flow = createFlow(clientConfig);
 
-    List<String> assemblies = collectAssemblies(config, flow);
+    List<String> assemblies = collectAssemblies(clientConfig, flow);
     checkState(!assemblies.isEmpty(), "Nothing to remove");
 
     // if not forced; ask user to confirm before removing
     if (!force) {
       PromptHelper promptHelper = new PromptHelper(context.getIo().terminal);
-      boolean result = promptHelper.askBoolean(messages.removeAssembly(config.getYaml().getAssembly().getName()));
+      boolean result = promptHelper.askBoolean(messages.removeAssembly(clientConfig.getYaml().getAssembly().getName()));
       if (!result) {
         return 1;
       }

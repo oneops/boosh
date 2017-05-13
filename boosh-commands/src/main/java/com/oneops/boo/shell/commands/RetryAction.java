@@ -17,6 +17,7 @@ package com.oneops.boo.shell.commands;
 
 import javax.annotation.Nonnull;
 
+import com.oneops.api.resource.model.Deployment;
 import com.oneops.boo.ClientConfig;
 import com.oneops.boo.workflow.BuildAllPlatforms;
 import com.planet57.gshell.command.Command;
@@ -36,7 +37,9 @@ public class RetryAction
 
     ensureAssemblyExists(flow);
 
-    flow.retryDeployment();
+    Deployment deployment = flow.retryDeployment();
+
+    // TODO: explain deployment
 
     return null;
   }

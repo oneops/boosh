@@ -81,17 +81,17 @@ public abstract class TemplateActionSupport
   /**
    * Construct a new flow with configuration.
    */
-  protected BuildAllPlatforms createFlow(final ClientConfig config) throws Exception {
-    checkNotNull(config);
+  protected BuildAllPlatforms createFlow(final ClientConfig clientConfig) throws Exception {
+    checkNotNull(clientConfig);
 
     OOInstance oo = new OOInstance();
-    BooBean boo = config.getYaml().getBoo();
+    BooBean boo = clientConfig.getYaml().getBoo();
     oo.setAuthtoken(boo.getApikey());
     oo.setOrgname(boo.getOrg());
     oo.setEndpoint(boo.getHost());
     oo.setGzipEnabled(boo.isGzipEnabled());
 
-    return new BuildAllPlatforms(oo, config, comment);
+    return new BuildAllPlatforms(oo, clientConfig, comment);
   }
 
   /**

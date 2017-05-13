@@ -31,15 +31,14 @@ public class StatusAction
 {
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
-    ClientConfig config = createClientConfig();
-
-    BuildAllPlatforms flow = createFlow(config);
+    ClientConfig clientConfig = createClientConfig();
+    BuildAllPlatforms flow = createFlow(clientConfig);
 
     ensureAssemblyExists(flow);
 
     // TODO: consider colors for status; and/or if there is more detail we want to display here
 
-    log.debug("Fetching status of assembly: {}", config.getYaml().getAssembly().getName());
+    log.debug("Fetching status of assembly: {}", clientConfig.getYaml().getAssembly().getName());
     context.getIo().println(flow.getStatus());
 
     return null;

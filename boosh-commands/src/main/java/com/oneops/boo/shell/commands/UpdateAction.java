@@ -17,8 +17,14 @@ package com.oneops.boo.shell.commands;
 
 import javax.annotation.Nonnull;
 
+import com.oneops.api.resource.model.Deployment;
+import com.oneops.boo.ClientConfig;
+import com.oneops.boo.workflow.BuildAllPlatforms;
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandContext;
+import com.planet57.gshell.util.cli2.Option;
+
+import java.util.List;
 
 /**
  * Update assemblies.
@@ -27,26 +33,36 @@ import com.planet57.gshell.command.CommandContext;
 public class UpdateAction
   extends TemplateActionSupport
 {
+  @Option(longName = "no-deploy", description = "Disable deployment")
+  private boolean disableDeploy;
+
   @Override
   public Object execute(final @Nonnull CommandContext context) throws Exception {
-    // TODO
+    ClientConfig clientConfig = createClientConfig();
+    BuildAllPlatforms flow = createFlow(clientConfig);
+
+    if (!clientConfig.getYaml().getAssembly().getAutoGen()) {
+      ensureAssemblyExists(flow);
+
+      log.debug("Updating assembly: {}", clientConfig.getYaml().getAssembly().getName());
+      Deployment deployment = flow.process(true, disableDeploy);
+
+      // TODO: explain deployment
+    }
+    else {
+      List<String> assemblies = flow.getAllAutoGenAssemblies(clientConfig.getYaml().getAssembly().getName());
+      for (String assembly : assemblies) {
+        // TODO: not terribly ideal to adjust existing config & re-create flow, but following BooCli impl
+        clientConfig.getYaml().getAssembly().setName(assembly);
+        flow = createFlow(clientConfig);
+
+        log.debug("Updating assembly: {}", assembly);
+        Deployment deployment = flow.process(true, disableDeploy);
+
+        // TODO: explain deployment
+      }
+    }
+
     return null;
   }
-
-  /*
-        } else if (cmd.hasOption("u")) {
-        if (!config.getYaml().getAssembly().getAutoGen()) {
-          if (flow.isAssemblyExist()) {
-            this.createPacks(Boolean.TRUE, isNoDeploy);
-          } else {
-            System.err.printf(Constants.NOTFOUND_ERROR, config.getYaml().getAssembly().getName());
-          }
-        } else {
-          List<String> assemblies = this.listFiles(this.config.getYaml().getAssembly().getName());
-          for (String asm : assemblies) {
-            this.initOo(config, asm, comment);
-            this.createPacks(Boolean.TRUE, isNoDeploy);
-          }
-        }
-   */
 }

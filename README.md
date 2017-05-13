@@ -84,13 +84,6 @@ Produces something similar to:
 
 # Known Issues
 
-## Unfinished Commands
-
-The following commands are yet to be finished:
-
-* boo/update
-* boo/procedure
-
 ## TERM=ansi
 
   `TERM=ansi` is known to cause strange behavior.  Workaround is to use `TERM=xterm-256color` or similar.

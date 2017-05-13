@@ -37,7 +37,8 @@ public class RetryAction
 
     ensureAssemblyExists(flow);
 
-    Deployment deployment = flow.retryDeployment();
+    // TODO: adjust for: Deployment deployment = flow.retryDeployment(); once released
+    boolean result = flow.retryDeployment();
 
     // TODO: explain deployment
 

@@ -15,8 +15,15 @@
  */
 package com.oneops.boo.shell.commands;
 
+import com.oneops.api.exception.OneOpsClientAPIException;
+import com.oneops.boo.ClientConfig;
+import com.oneops.boo.workflow.BuildAllPlatforms;
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandContext;
+import com.planet57.gshell.util.cli2.Argument;
+import com.planet57.gshell.util.cli2.Option;
+import com.planet57.gshell.util.io.IO;
+import org.sonatype.goodies.common.Time;
 
 import javax.annotation.Nonnull;
 
@@ -27,59 +34,50 @@ import javax.annotation.Nonnull;
 public class ProcedureAction
   extends TemplateActionSupport
 {
+  @Argument(index = 0, required = true, description = "Platform name", token = "PLATFORM")
+  private String platform;
+
+  @Argument(index = 1, required = true, description = "Component name", token = "COMPONENT")
+  private String component;
+
+  @Argument(index = 2, required = true, description = "Action name", token = "ACTION")
+  private String action;
+
+  @Option(name="s", longName = "step-size", description = "Step size", token = "SIZE")
+  private int stepSize = 100;
+
   @Override
   public Object execute(final @Nonnull CommandContext context) throws Exception {
-    // TODO
+    ClientConfig clientConfig = createClientConfig();
+    BuildAllPlatforms flow = createFlow(clientConfig);
+    IO io = context.getIo();
+
+    // TODO: add arg-list, instance-list
+
+    log.debug("Invoking procedure; platform={}, component={}, action={}", platform, component, action);
+    Long procedureId = flow.executeAction(platform, component, action, "", null, stepSize);
+
+    log.debug("Procedure ID: {}", procedureId);
+    if (procedureId != null) {
+      String status = "active";
+      try {
+        while (status != null && (status.equalsIgnoreCase("active") || status.equalsIgnoreCase("pending"))) {
+          status = flow.getProcedureStatus(procedureId);
+          try {
+            Time.seconds(3).sleep();
+          }
+          catch (InterruptedException e) {
+            log.debug("Interrupted", e);
+          }
+        }
+      }
+      catch (OneOpsClientAPIException e) {
+        log.debug("Failed to fetch status", e);
+      }
+
+      io.println(status);
+    }
+
     return null;
   }
-
-  /*
-  } else if (cmd.hasOption("procedure")) {
-        if (cmd.getOptionValues("procedure").length != 3) {
-          System.err
-              .println("Wrong parameters! --prodedure <platformName> <componentName> <actionName>");
-          return Constants.EXIT_WRONG_PRAMETER;
-        } else {
-          String[] args = cmd.getOptionValues("procedure");
-          String arglist = "";
-          int rollAt = 100;
-          if (cmd.hasOption("procedure-arguments")) {
-            arglist = cmd.getOptionValue("procedure-arguments");
-          }
-          if (cmd.hasOption("procedure-step-size")) {
-            rollAt = Integer.parseInt(cmd.getOptionValue("procedure-step-size"));
-          }
-          List<String> instances = null;
-          if (cmd.hasOption("procedure-instances")) {
-            String ins = cmd.getOptionValue("procedure-instances");
-            if (ins != null && ins.trim().length() > 0) {
-              if (ins.equalsIgnoreCase("list")) {
-                List<String> list = flow.listInstances(args[0], args[1]);
-                if (list != null) {
-                  for (String instance : list) {
-                    System.out.println(instance);
-                  }
-                }
-                return Constants.EXIT_NORMAL;
-              }
-              instances = Arrays.asList(ins.split(","));
-            }
-          }
-          if ("list".equalsIgnoreCase(args[2])) {
-            List<String> list = flow.listActions(args[0], args[1]);
-            if (list != null) {
-              for (String instance : list) {
-                System.out.println(instance);
-              }
-            }
-          } else {
-            exit = this.executeAction(args[0], args[1], args[2], arglist, instances, rollAt);
-          }
-
-        }
-      } else {
-        System.err.println("Wrong parameters!");
-        return Constants.EXIT_WRONG_PRAMETER;
-      }
-   */
 }

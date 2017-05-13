@@ -28,8 +28,7 @@ import com.planet57.gshell.command.CommandContext;
 import com.planet57.gshell.util.cli2.Option;
 import com.planet57.gshell.util.i18n.I18N;
 import com.planet57.gshell.util.i18n.MessageBundle;
-import org.jline.reader.LineReader;
-import org.jline.reader.LineReaderBuilder;
+import com.planet57.gshell.util.io.PromptHelper;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -43,7 +42,7 @@ public class RemoveAction
   private interface Messages
     extends MessageBundle
   {
-    @DefaultMessage("Remove assembly '%s' (yes/no): ")
+    @DefaultMessage("Remove assembly '%s'")
     String removeAssembly(String name);
   }
 
@@ -62,14 +61,9 @@ public class RemoveAction
 
     // if not forced; ask user to confirm before removing
     if (!force) {
-      LineReader lineReader = LineReaderBuilder.builder()
-        .terminal(context.getIo().terminal)
-        .build();
-
-      String result = lineReader.readLine(messages.removeAssembly(config.getYaml().getAssembly().getName()));
-
-      // abort if user response is not "yes"
-      if (!result.trim().equals("yes")) {
+      PromptHelper promptHelper = new PromptHelper(context.getIo().terminal);
+      boolean result = promptHelper.askBoolean(messages.removeAssembly(config.getYaml().getAssembly().getName()));
+      if (!result) {
         return 1;
       }
     }

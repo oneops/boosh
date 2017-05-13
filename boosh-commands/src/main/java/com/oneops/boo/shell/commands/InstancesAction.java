@@ -43,6 +43,9 @@ public class InstancesAction
   public Object execute(final @Nonnull CommandContext context) throws Exception {
     ClientConfig clientConfig = createClientConfig();
     BuildAllPlatforms flow = createFlow(clientConfig);
+
+    ensureAssemblyExists(flow);
+
     IO io = context.getIo();
 
     log.debug("Listing instances; platform={}, component={}", platform, component);

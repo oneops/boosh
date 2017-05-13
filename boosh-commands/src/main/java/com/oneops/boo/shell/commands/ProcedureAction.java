@@ -59,6 +59,9 @@ public class ProcedureAction
   public Object execute(final @Nonnull CommandContext context) throws Exception {
     ClientConfig clientConfig = createClientConfig();
     BuildAllPlatforms flow = createFlow(clientConfig);
+
+    ensureAssemblyExists(flow);
+
     IO io = context.getIo();
 
     // TODO: add arg-list

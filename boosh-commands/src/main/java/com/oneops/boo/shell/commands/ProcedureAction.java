@@ -15,6 +15,7 @@
  */
 package com.oneops.boo.shell.commands;
 
+import com.google.common.base.Splitter;
 import com.oneops.api.exception.OneOpsClientAPIException;
 import com.oneops.boo.ClientConfig;
 import com.oneops.boo.workflow.BuildAllPlatforms;
@@ -26,6 +27,8 @@ import com.planet57.gshell.util.io.IO;
 import org.sonatype.goodies.common.Time;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Invoke a procedure.
@@ -46,16 +49,28 @@ public class ProcedureAction
   @Option(name="s", longName = "step-size", description = "Step size", token = "SIZE")
   private int stepSize = 100;
 
+  // FIXME: cli2 should be able to cope with List<String> values
+
+  @Nullable
+  @Option(name="i", longName = "instances", description = "Invoke on specific instances", token = "INSTANCE[,INSTANCE]*")
+  private String instances;
+
   @Override
   public Object execute(final @Nonnull CommandContext context) throws Exception {
     ClientConfig clientConfig = createClientConfig();
     BuildAllPlatforms flow = createFlow(clientConfig);
     IO io = context.getIo();
 
-    // TODO: add arg-list, instance-list
+    // TODO: add arg-list
 
-    log.debug("Invoking procedure; platform={}, component={}, action={}", platform, component, action);
-    Long procedureId = flow.executeAction(platform, component, action, "", null, stepSize);
+    // HACK: convert String to List<String>
+    List<String> instances = null;
+    if (this.instances != null) {
+      instances = Splitter.on(',').trimResults().splitToList(this.instances);
+    }
+
+    log.debug("Invoking procedure; platform={}, component={}, action={}, instances={}", platform, component, action, instances);
+    Long procedureId = flow.executeAction(platform, component, action, "", instances, stepSize);
 
     log.debug("Procedure ID: {}", procedureId);
     if (procedureId != null) {
@@ -63,6 +78,7 @@ public class ProcedureAction
       try {
         while (status != null && (status.equalsIgnoreCase("active") || status.equalsIgnoreCase("pending"))) {
           status = flow.getProcedureStatus(procedureId);
+          log.debug("Status: {}", status);
           try {
             Time.seconds(3).sleep();
           }

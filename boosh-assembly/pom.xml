@@ -95,7 +95,7 @@
             </goals>
             <configuration>
               <finalName>boosh-${project.version}</finalName>
-              <tarLongFileMode>gnu</tarLongFileMode>
+              <tarLongFileMode>posix</tarLongFileMode>
               <descriptors>
                 <descriptor>src/main/assembly/bin.xml</descriptor>
               </descriptors>

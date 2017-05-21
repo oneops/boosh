@@ -41,19 +41,26 @@
       <artifactId>boo</artifactId>
       <exclusions>
         <!--
-        Boo includes aop guice; gshell uses non-aop version
+        Avoid pulling in deps which are provide by gshell-core
         -->
         <exclusion>
           <groupId>com.google.inject</groupId>
           <artifactId>guice</artifactId>
         </exclusion>
 
-        <!--
-        Boo includes slf4j-simple; use logback for boosh
-        -->
         <exclusion>
           <groupId>org.slf4j</groupId>
           <artifactId>slf4j-simple</artifactId>
+        </exclusion>
+
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>jcl-over-slf4j</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

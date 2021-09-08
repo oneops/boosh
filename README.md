@@ -75,12 +75,12 @@ Commands can be executed w/o an interactive shell as well:
 Produces something similar to:
 
     [default]
-      cloud: prod-cdc6
-      username: jdillo3
-      email: jdillon@walmartlabs.com
-      host: https://oneops.prod.walmart.com
+      cloud: 
+      username: 
+      email: 
+      host: 
       api_key: XXXX
-      organization: devtools
+      organization: 
 
 # Known Issues
 
